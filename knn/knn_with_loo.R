@@ -12,8 +12,8 @@ knn <- function(z, X, k){
     distances[tmp] <- eDist(xl[tmp, 1:n], z)
   }
   orderedxl <- xl[order(distances), ]
-  classes <- orderedxl[1:k, n + 1]  #получим названия первых k классов в отсортированном списке
-  counts <- table(classes) #посчитали, сколько раз встречается каждый класс в classes
+  classes <- orderedxl[1:k, n + 1]  
+  counts <- table(classes) 
   return(names(which.max(counts)))
 }
 
