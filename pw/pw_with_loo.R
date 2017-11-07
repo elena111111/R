@@ -42,7 +42,7 @@ pw <- function(X, z, h, K){
   sumVersicolor <- sum(classes[classes$Species == "versicolor", 2])
   sumVirginica <- sum(classes[classes$Species == "virginica", 2])
   ans <- matrix(c(sumSetosa, sumVersicolor, sumVirginica), 
-                nrow = 1, ncol = 3, byrow = T, list(c(1), c('setosa', 'versicolor', 'virginica'))) #храним название класса и соответствующий ему суммарный вес
+                nrow = 1, ncol = 3, byrow = T, list(c(1), c('setosa', 'versicolor', 'virginica'))) 
   return(colnames(ans)[which.max(ans)])
 }
 
