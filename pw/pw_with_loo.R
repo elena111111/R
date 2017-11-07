@@ -96,8 +96,7 @@ loo <- function(X, alg, step, xmax){
 }
 
 step <- 0.2
-#Kh <- loo(iris, pw, step, 5)
-Kh <- c(CoreTriang, 2.6)
+Kh <- loo(iris, pw, step, 5)
 
 colors <- c("setosa" = "red", "versicolor" = "green3", "virginica" = "blue")
 plot(iris[, 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species])
