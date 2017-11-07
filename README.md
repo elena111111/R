@@ -20,7 +20,9 @@
 Оптимальным будет *k*, при котором величина *Loo* минимальна.
 
 Результат работы программы: 
+
 ![alt text](https://github.com/elena111111/R/blob/master/knn/knn.png)
 
 Зависимость *Loo* от *k*:
+
 ![alt text](https://github.com/elena111111/R/blob/master/knn/knn_loo.png)
