@@ -75,11 +75,12 @@
 Стоит отметить, что данный алгоритм плохо подходит для неравномерно распределённой выборки (в окно одинаковой ширины попадает очень разное количество объектов). 
 В этом случае лучше использовать алгоритм парзеновского окна с переменной шириной окна (описан ниже).
 
-Результат работы программы(для разных ядер):
+Результат работы программы / Зависимость *loo* от *h* (для разных ядер):
 
 1) Прямоугольное ядро:
 
-<p align="center"> <img src = "https://github.com/elena111111/R/blob/master/pw/pw_core_rect.png"></p>
+<p align="left"> <img src = "https://github.com/elena111111/R/blob/master/pw/pw_core_rect.png"></p>
+<p align="right"> <img src = "https://github.com/elena111111/R/blob/master/pw/CoreRect.png"></p>
 
 2) Треугольное ядро:
 
@@ -96,12 +97,6 @@
 5) Гауссовское ядро: 
 
 ![alt text](https://github.com/elena111111/R/blob/master/pw/pw_core_gauss.png)
-
-Зависимость *loo* от *h*(для разных ядер):
-
-1) Прямоугольное ядро:
-
-![alt text](https://github.com/elena111111/R/blob/master/pw/CoreRect.png)
 
 2) Треугольное ядро:
 
