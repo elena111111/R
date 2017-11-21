@@ -79,7 +79,7 @@
 
 1) Прямоугольное ядро:
 
-![alt text](https://github.com/elena111111/R/blob/master/pw/pw_core_rect.png)
+<p align="center"> <img src = "https://github.com/elena111111/R/blob/master/pw/pw_core_rect.png"></p>
 
 2) Треугольное ядро:
 
