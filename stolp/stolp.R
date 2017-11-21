@@ -3,8 +3,6 @@ eDist <- function(u, v) {
 }
 
 knn <- function(z, X, k){
-  if(k > nrow(X)) k <- nrow(X) - 1  #чтобы алгоритм не вырождался в const после stolp
-  #print(k)
   xl <- X[ , 3:5]
   l <- dim(xl)[1] 
   n <- dim(xl)[2] - 1
@@ -14,9 +12,40 @@ knn <- function(z, X, k){
     distances[tmp] <- eDist(xl[tmp, 1:n], z)
   }
   orderedxl <- xl[order(distances), ]
-  classes <- orderedxl[1:k, n + 1]  #получим названия первых k классов в отсортированном списке
-  counts <- table(classes) #посчитали, сколько раз встречается каждый класс в classes
+  classes <- orderedxl[1:k, n + 1]  
+  counts <- table(classes) 
   return(names(which.max(counts)))
+}
+
+k_loo <- function(X, alg, step, x_max){
+  plot(NULL, NULL, type = "l", xlim = c(0, x_max), ylim = c(0, 1), xlab = 'k', ylab = 'loo')
+  step <- 5
+  Ox <- seq(from = 1, to = x_max, by = step)
+  Oy <- c()
+  
+  l <- dim(X)[1]
+  LooOpt <- 1
+  kOpt <- 1
+  
+  for(k in Ox){
+    Q <- 0
+    for(i in 1:l){
+      X2 <- X[-i, ]
+      z <- X[i, 3:4]
+      if(alg(z, X2, k) != X[i, 5]) Q <- Q + 1
+    }
+    Loo <- Q/l
+    Oy <- c(Oy, Loo)
+    print(k)
+    print(Loo)
+    if(Loo < LooOpt) {
+      LooOpt <- Loo
+      kOpt <- k
+    }
+  }
+  lines(Ox, Oy, pch = 8, bg = "black", col = "green3")
+  points(kOpt, LooOpt, pch = 8, bg = "black", col = "blue")
+  return(kOpt)
 }
 
 margin <- function(z, class_z, X, k)
@@ -30,13 +59,13 @@ margin <- function(z, class_z, X, k)
     distances[tmp] <- eDist(xl[tmp, 1:n], z)
   }
   orderedxl <- xl[order(distances), ]
-  classes <- orderedxl[1:k, n + 1]  #получим названия первых k классов в отсортированном списке
-  counts <- table(classes) #посчитали, сколько раз встречается каждый класс в classes
+  classes <- orderedxl[1:k, n + 1]  
+  counts <- table(classes) 
   
   return(counts[class_z] - max(counts[names(counts) != class_z]))
 }
 
-eq <- function(c1, c2){ #сравнение векторов
+eq <- function(c1, c2){ 
   if(length(c1) != length(c2)) return(FALSE)
   for(i in 1:length(c1)){
     if(c1[i] != c2[i]) return(FALSE)
@@ -45,7 +74,6 @@ eq <- function(c1, c2){ #сравнение векторов
 }
 
 stolp <- function(X, k, M, l0 = 50, delta = 2){
-  #удалим строки, где отступ отрицательный
   G <- data.frame()
   X <- cbind(X, M)
   i <- 1
@@ -53,13 +81,12 @@ stolp <- function(X, k, M, l0 = 50, delta = 2){
     if(X[i, 6] < delta) {
       print(i)
       X <- X[-i, ]
-      rownames(X) <- 1:nrow(X) #перенумеровали
+      rownames(X) <- 1:nrow(X) 
       i <- i - 1
     }
     i <- i + 1
   }
   
-  #добавим в G по одному элементу с максимальным отступом из каждого класса
   for(i in 1:length(levels(X$Species))){
     tmp <- X[X$Species == levels(X$Species)[i], ]
     #print(which.max(tmp[, 6]))
@@ -82,7 +109,7 @@ stolp <- function(X, k, M, l0 = 50, delta = 2){
       }
       i <- i + 1
     }
-    #теперь в X2 содержатся точки {X}\{G}
+    
     m_min <- min(G[ , 6])
     z_min <- G[which.min(G[ , 6]), ]
     for(i in 1:nrow(X2)) {
@@ -99,7 +126,7 @@ stolp <- function(X, k, M, l0 = 50, delta = 2){
     G <- rbind(G, z_min)
   }
   print(G)
-  G <- G[ , 1:(ncol(G) - 1)] #столбец с отступами удалим
+  G <- G[ , 1:(ncol(G) - 1)] 
   return(G)
 }
 
@@ -113,7 +140,6 @@ for(j in 1:nrow(X)){
 
 print(M)
 
-#stolp(X, k, M)
 colors <- c("setosa" = "red", "versicolor" = "green3", "virginica" = "blue")
 draw_iris <- function(){
   plot(iris[, 3:4], main = "Опорные объекты", pch = 21, bg = "white", col = colors[iris$Species])
@@ -139,9 +165,11 @@ draw_knn <- function(X, k, M, name = "knn"){
   legend("bottomright", c("virginica", "versicolor", "setosa"), pch = c(15,15,15), col = c("blue", "green3", "red"))
 }
 
-draw_iris()
-#draw_knn(iris, k, M, "knn со всей выборкой iris")
-#желательно заново пересчитать k оптимальное
-draw_knn(stolp(X, k, M), 1, M, "knn после работы stolp") #здесь k оптимальное стало равно 1(определили по картинке опытным путем)
 S <- stolp(X, k, M)
+draw_iris()
+draw_knn(iris, k, M, "knn со всей выборкой iris")
+k_opt <- k_loo(S, knn, 0.2, nrow(S))
+print("k_opt")
+print(k_opt)
+draw_knn(S, k_opt, M, "knn после работы stolp") 
 points(S[, 3:4], pch = 21, bg = colors[S$Species], col = "black")
