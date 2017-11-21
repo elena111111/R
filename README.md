@@ -79,8 +79,8 @@
 
 1) Прямоугольное ядро:
 
-<p align="left"> <img src = "https://github.com/elena111111/R/blob/master/pw/pw_core_rect.png" width="100%"></p>
-<p align="right"> <img src = "https://github.com/elena111111/R/blob/master/pw/CoreRect.png"></p>
+<p align="left"> <img src = "https://github.com/elena111111/R/blob/master/pw/pw_core_rect.png" width="40%"></p>
+<p align="right"> <img src = "https://github.com/elena111111/R/blob/master/pw/CoreRect.png" width="40%"></p>
 
 2) Треугольное ядро:
 
