@@ -19,10 +19,8 @@ knn <- function(z, X, k){
 
 loo <- function(X, alg, step, x_max){
   plot(NULL, NULL, type = "l", xlim = c(0, x_max), ylim = c(0, 1), xlab = 'k', ylab = 'loo')
-  step <- 5
   Ox <- seq(from = 1, to = x_max, by = step)
   Oy <- c()
-  
   l <- dim(X)[1]
   LooOpt <- 1
   kOpt <- 1
@@ -36,26 +34,29 @@ loo <- function(X, alg, step, x_max){
     }
     Loo <- Q/l
     Oy <- c(Oy, Loo)
-    print(k)
-    print(Loo)
+    #print(k)
+    #print(Loo)
     if(Loo < LooOpt) {
       LooOpt <- Loo
       kOpt <- k
     }
   }
+  print("loo opt:")
+  print(LooOpt)
   lines(Ox, Oy, pch = 8, bg = "black", col = "green3")
   points(kOpt, LooOpt, pch = 8, bg = "black", col = "blue")
   return(kOpt)
 }
 
 k <- loo(iris, knn, 1, dim(iris)[1])
+print("k opt:")
 print(k)
 
 colors <- c("setosa" = "red", "versicolor" = "green3", "virginica" = "blue")
 plot(iris[, 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species])
 
-st3 <- seq(from = min(iris[, 3]), to = max(iris[, 3]), by = 0.3)
-st4 <- seq(from = min(iris[, 4]), to = max(iris[, 4]), by = 0.3)
+st3 <- seq(from = min(iris[, 3]), to = max(iris[, 3]), by = 0.1)
+st4 <- seq(from = min(iris[, 4]), to = max(iris[, 4]), by = 0.1)
 
 for(i in st3){
   for(j in st4){
@@ -64,4 +65,5 @@ for(i in st3){
   }
 }
 
+points(iris[, 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species])
 legend("bottomright", c("virginica", "versicolor", "setosa"), pch = c(15,15,15), col = c("blue", "green3", "red"))
