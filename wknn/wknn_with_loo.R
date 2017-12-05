@@ -45,25 +45,28 @@ loo <- function(X, alg, step, x_max){
     Oy <- c(Oy, Loo)
     print(q)
     print(Loo)
-    if(Loo < LooOpt) {
+    if(Loo <= LooOpt) {
       LooOpt <- Loo
       qOpt <- q
     }
   }
   lines(Ox, Oy, pch = 8, bg = "black", col = "green3")
   points(qOpt, LooOpt, pch = 8, bg = "black", col = "blue")
+  print("Loo opt:")
+  print(LooOpt)
   return(qOpt)
 }
 
-step <- 0.1
+step <- 0.05
 q <- loo(iris, knn, step, 1 - step)
+print("q opt:")
 print(q)
 
 colors <- c("setosa" = "red", "versicolor" = "green3", "virginica" = "blue")
 plot(iris[, 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species])
 
-st3 <- seq(from = min(iris[, 3]), to = max(iris[, 3]), by = 0.3)
-st4 <- seq(from = min(iris[, 4]), to = max(iris[, 4]), by = 0.3)
+st3 <- seq(from = min(iris[, 3]), to = max(iris[, 3]), by = 0.1)
+st4 <- seq(from = min(iris[, 4]), to = max(iris[, 4]), by = 0.1)
 
 for(i in st3){
   for(j in st4){
@@ -71,6 +74,6 @@ for(i in st3){
     points(z[1], z[2],  pch = 21, bg = "lightgoldenrodyellow", col = colors[wknn(z, iris, k, q)])
   }
 }
-
+points(iris[, 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species])
 legend("bottomright", c("virginica", "versicolor", "setosa"), pch = c(15,15,15), col = c("blue", "green3", "red"))
 
