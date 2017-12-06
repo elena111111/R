@@ -346,6 +346,6 @@ naiveBayes <- function(z, X, lambda, Ker){ 	# z - классифицируемая точка, X - об
 }
 ```
  
-Пример рабогты алгоритма для гауссовского ядра:
+Пример работы алгоритма для гауссовского ядра:
 
-
+![alt text](https://github.com/elena111111/R/blob/master/nb/nb_gauss.png)
