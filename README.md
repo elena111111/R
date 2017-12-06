@@ -5,7 +5,9 @@
 
 Обобщенный метрический классификатор:
 
-<a href="https://www.codecogs.com/eqnedit.php?latex=a(z,&space;X^l)&space;=&space;arg&space;\max_{y&space;\in&space;Y}&space;W_y(z,&space;X^l),&space;W_y(z,&space;X^l)&space;=&space;\sum_{i:&space;y_u^{(i)}&space;=&space;y}w(i,&space;u)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?a(z,&space;X^l)&space;=&space;arg&space;\max_{y&space;\in&space;Y}&space;W_y(z,&space;X^l),&space;W_y(z,&space;X^l)&space;=&space;\sum_{i:&space;y_u^{(i)}&space;=&space;y}w(i,&space;u)" title="a(z, X^l) = arg \max_{y \in Y} W_y(z, X^l), W_y(z, X^l) = \sum_{i: y_u^{(i)} = y}w(i, u)" /></a>
+<a href="https://www.codecogs.com/eqnedit.php?latex=a(z,&space;X^l)&space;=&space;arg&space;\max_{y&space;\in&space;Y}&space;W_y(z,&space;X^l),&space;W_y(z,&space;X^l)&space;=&space;\sum_{i:&space;y_z^{(i)}&space;=&space;y}w(i,&space;z)," target="_blank"><img src="https://latex.codecogs.com/gif.latex?a(z,&space;X^l)&space;=&space;arg&space;\max_{y&space;\in&space;Y}&space;W_y(z,&space;X^l),&space;W_y(z,&space;X^l)&space;=&space;\sum_{i:&space;y_z^{(i)}&space;=&space;y}w(i,&space;z)," title="a(z, X^l) = arg \max_{y \in Y} W_y(z, X^l), W_y(z, X^l) = \sum_{i: y_z^{(i)} = y}w(i, z)," /></a>
+
+где *W *- оценка близости объекта *z* к класу *y*, *w(i, z)* - весовая функция, оценивающая степень важноси *i-*го соседа для объекта *z*.
 
 ## knn - метод k ближайших соседей.
 Дана выборка ирисов Фишера(150 элементов), в ней 3 класса(*setosa*, *versicolor*, *virginica*). 
