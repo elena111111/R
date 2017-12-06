@@ -4,6 +4,7 @@
 Вводится мера близости объектов (в нашем случае евклидово расстояние), которая показывает, насколько эти объекты похожи. 
 
 Обобщенный метрический классификатор:
+
 <a href="https://www.codecogs.com/eqnedit.php?latex=a(z,&space;X^l)&space;=&space;arg&space;\max_{y&space;\in&space;Y}&space;W_y(z,&space;X^l),&space;W_y(z,&space;X^l)&space;=&space;\sum_{i:&space;y_u^{(i)}&space;=&space;y}w(i,&space;u)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?a(z,&space;X^l)&space;=&space;arg&space;\max_{y&space;\in&space;Y}&space;W_y(z,&space;X^l),&space;W_y(z,&space;X^l)&space;=&space;\sum_{i:&space;y_u^{(i)}&space;=&space;y}w(i,&space;u)" title="a(z, X^l) = arg \max_{y \in Y} W_y(z, X^l), W_y(z, X^l) = \sum_{i: y_u^{(i)} = y}w(i, u)" /></a>
 
 ## knn - метод k ближайших соседей.
@@ -276,6 +277,8 @@ pf <- function(X, z, g, K, h){	# X - обучающая выборка, z - классифицируемая точ
 Выполняет сжатие исходных данных.
 Позволяет отобрать из выборки множество опорных объектов, и обучаться на этом множестве.
 
+
+
 # Байесовские методы классификации
 
 Оптимальное байесовкское решающее правило:
@@ -287,6 +290,41 @@ pf <- function(X, z, g, K, h){	# X - обучающая выборка, z - классифицируемая точ
 
 Реализация:
 ```
-
+naiveBayes <- function(z, X, lambda, Ker){ 	# z - классифицируемая точка, X - обучающая выборка, lambda - величина потери при отнесении объекта класса y к другому классу, Ker - функция ядра 
+  n <- 3:4					# номера признаков
+  l <- nrow(X)
+  m <- length(levels(X$Species)) 		#- кол-во классов
+  P_apr <- c() 
+  P_apr[1:m] <- 0
+  
+  p <- c()					# здесь будет плотность распределений
+  p[1:m] <- 0
+  ans <- data.frame(1:m, levels(X$Species))
+  colnames(ans) <- c("rule", "Species")
+  # разбить X на подвыборки
+  for(i in 1:m){ 
+    subclass <- X[X$Species == levels(X$Species)[i], ] 	# - подкласс
+    # считаем априорную вероятность
+    P_apr[i] <- nrow(subclass)/l			
+    # считаем плотность распределений
+    for(s in 1:nrow(subclass)){
+      for(j in n){
+        if(Ker((z[j] - subclass[i, j])/h[i]) > 0) 		# чтобы логарифм существовал
+          p[i] <- p[i] + logb(Ker((z[j] - subclass[i, j])/h[i])/h[i])
+      }
+    }
+    if(p[i] != 0) {
+      p[i] <- p[i] - logb(nrow(subclass))
+      ans[i, 1] <- (logb(lambda[i]*P_apr[i]) + p[i])  # подставили всё необходимое в оптимальное байесовкское решающее правило
+    } else ans[i, 1] <- 0
+  }
+  print(z)
+  print(P_apr)
+  print(p)
+  print(ans)
+  print(max(ans[ , 1]))
+  print(ans[which.max(ans[ , 1]), 2])
+  return(ans[which.max(ans[ , 1]), 2])
+}
 ```
  
