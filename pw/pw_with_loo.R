@@ -2,27 +2,27 @@ eDist <- function(u, v) {
   sqrt(sum((u - v)^2))
 }
 
-CoreRect <- function(z){
+KerRect <- function(z){
   if(abs(z) <= 1) return(0.5)
   else return(0)
 }
 
-CoreTriang <- function(z){
+KerTriang <- function(z){
   if(abs(z) <= 1) return(1 - abs(z))
   else return(0)
 }
 
-CoreQuart <- function(z){
+KerQuart <- function(z){
   if(abs(z) <= 1) return((15/16)*(1 - z^2)^2)
   else return(0)
 }
 
-CoreEpan <- function(z){
+KerEpan <- function(z){
   if(abs(z) <= 1) return(0.75*(1 - z^2))
   else return(0)
 }
 
-CoreGauss <- function(z){
+KerGauss <- function(z){
   (2*pi)^(-0.5)*exp(-0.5*z^2)
 }
 
@@ -55,8 +55,8 @@ draw_for_loo <- function(Ox, Oy, step, xmax, hOpt, LooOpt, i){
 loo <- function(X, alg, step, xmax){
   l <- dim(X)[1]
   Ox <- seq(from = step, to = xmax, by = step)
-  Cores <- c(CoreEpan, CoreGauss, CoreQuart, CoreTriang, CoreRect)
-  CoresNames <- c("CoreEpan", "CoreGauss", "CoreQuart", "CoreTriang", "CoreRect")
+  Cores <- c(KerEpan, KerGauss, KerQuart, KerTriang, KerRect)
+  CoresNames <- c("KerEpan", "KerGauss", "KerQuart", "KerTriang", "KerRect")
   LooOpt <- 1
   Kopt <- Cores[1]
   ans_Kh <- c() #c(K, h)
@@ -65,9 +65,9 @@ loo <- function(X, alg, step, xmax){
   
   for(K in Cores){
     Oy <- c()
-    print(K)
+    #print(K)
     for(h in Ox){
-      print(h)
+      #print(h)
       Q <- 0
       for(i in 1:l){
         iris2 <- iris[-i, ]
@@ -75,7 +75,7 @@ loo <- function(X, alg, step, xmax){
         if(pw(iris2, z, h, K) != iris[i, 5]) Q <- Q + 1
       }
       Loo <- Q/l
-      print(Loo)
+      #print(Loo)
       if(Loo <= LooOpt) {
         LooOpt <- Loo
         hOpt <- h
@@ -85,18 +85,23 @@ loo <- function(X, alg, step, xmax){
     }
     draw_for_loo(Ox, Oy, step, xmax, hOpt, LooOpt, CoresNames[j])
     j <- j + 1
+    print("Ker:")
     print(KOpt)
+    print("h opt:")
     print(hOpt)
+    print("Loo:")
     print(LooOpt)
     ans_Kh <- c(KOpt, hOpt)
   }
+  print("Loo opt:")
   print(LooOpt)
   print(ans_Kh)
   return(ans_Kh)
 }
 
-step <- 0.2
-Kh <- loo(iris, pw, step, 5)
+step <- 0.1
+#Kh <- loo(iris, pw, step, 7)
+Kh <- c(KerTriang, 2.7)
 
 colors <- c("setosa" = "red", "versicolor" = "green3", "virginica" = "blue")
 plot(iris[, 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species])
@@ -110,6 +115,6 @@ for(i in st3){
     points(z[1], z[2],  pch = 21, bg = "lightgoldenrodyellow", col = colors[pw(iris, z, Kh[[2]], Kh[[1]])])
   }
 }
-
+points(iris[, 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species])
 legend("bottomright", c("virginica", "versicolor", "setosa"), pch = c(15,15,15), col = c("blue", "green3", "red"))
 
