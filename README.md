@@ -291,13 +291,16 @@ pf <- function(X, z, g, K, h){	# X - обучающая выборка, z - классифицируемая точ
 Оптимальное байесовкское решающее правило:
 
 <a href="https://www.codecogs.com/eqnedit.php?latex=a(x)&space;=&space;arg&space;\max_{y&space;\in&space;Y}&space;\lambda_y&space;P_y&space;p_y(x)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?a(x)&space;=&space;arg&space;\max_{y&space;\in&space;Y}&space;\lambda_y&space;P_y&space;p_y(x)" title="a(x) = arg \max_{y \in Y} \lambda_y P_y p_y(x)" /></a>
+
 где: 
 <a href="https://www.codecogs.com/eqnedit.php?latex=\lambda_{yy}&space;=&space;0,&space;\lambda_{ys}&space;=&space;\lambda_{y},&space;\forall&space;{y,&space;s}&space;\in&space;Y" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\lambda_{yy}&space;=&space;0,&space;\lambda_{ys}&space;=&space;\lambda_{y},&space;\forall&space;{y,&space;s}&space;\in&space;Y" title="\lambda_{yy} = 0, \lambda_{ys} = \lambda_{y}, \forall {y, s} \in Y" /></a>
- - величина потери при отнесении объекта класса *y* к классу *s*,
+  величина потери при отнесении объекта класса *y* к классу *s*,
+
 <a href="https://www.codecogs.com/eqnedit.php?latex=P_y" target="_blank"><img src="https://latex.codecogs.com/gif.latex?P_y" title="P_y" /></a>
-- априорная вероятность класса,
+ априорная вероятность класса,
+
 <a href="https://www.codecogs.com/eqnedit.php?latex=p_y(x)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?p_y(x)" title="p_y(x)" /></a>
-- функция правдоподобия класса.
+ функция правдоподобия класса.
 
 ## Наивный байесовский классификатор
 
