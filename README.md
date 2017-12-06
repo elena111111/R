@@ -7,11 +7,13 @@
 
 <a href="https://www.codecogs.com/eqnedit.php?latex=a(z,&space;X^l)&space;=&space;arg&space;\max_{y&space;\in&space;Y}&space;W_y(z,&space;X^l),&space;W_y(z,&space;X^l)&space;=&space;\sum_{i:&space;y_z^{(i)}&space;=&space;y}w(i,&space;z)," target="_blank"><img src="https://latex.codecogs.com/gif.latex?a(z,&space;X^l)&space;=&space;arg&space;\max_{y&space;\in&space;Y}&space;W_y(z,&space;X^l),&space;W_y(z,&space;X^l)&space;=&space;\sum_{i:&space;y_z^{(i)}&space;=&space;y}w(i,&space;z)," title="a(z, X^l) = arg \max_{y \in Y} W_y(z, X^l), W_y(z, X^l) = \sum_{i: y_z^{(i)} = y}w(i, z)," /></a>
 
-где *W *- оценка близости объекта *z* к класу *y*, *w(i, z)* - весовая функция, оценивающая степень важноси *i-*го соседа для объекта *z*.
+где *W*- оценка близости объекта *z* к класу *y*, *w(i, z)* - весовая функция, оценивающая степень важноси *i*-го соседа для объекта *z*.
 
 ## knn - метод k ближайших соседей.
 Дана выборка ирисов Фишера(150 элементов), в ней 3 класса(*setosa*, *versicolor*, *virginica*). 
 Мы хотим классифицировать множество точек *{z}* по 2м признакам (Petal.Length, Petal.Width). Эти же признаки - координаты точек на графике.
+
+Метод относит точку *z* к тому классу, который чаще всего встречается среди её соседей. 
 
 Реализация:
 
@@ -32,7 +34,7 @@ knn <- function(z, X, k){	# X - это Ирисы Фишера, k - число соседей точки z
 }
 ```
 
-Оптимальное *k* подбирается по *LOO* (скользящий контроль), который работает следующим образом: 
+Оптимальное число соседей *k* подбирается по *LOO* (скользящий контроль), который работает следующим образом: 
 
 ```
 loo <- function(X, alg, step, x_max){
@@ -75,6 +77,7 @@ loo <- function(X, alg, step, x_max){
 Классификацию проводим по двум признакам (Petal.Length, Petal.Width), они же являются координатами точек.
 
 Отличие от обычного knn в том, что соседям присваиваются значения весовой функции (q^i), зависящей от ранга соседа.
+Метод относит точку *z* к тому классу, суммарный вес которого максимален среди её соседей. 
 
 Реализация:
 
@@ -190,11 +193,13 @@ varpw <- function(X, z, K, k){	# X - обучающая выборка, z - классифицируемая точ
   for(tmp in 1:l){
     distances[tmp] <- eDist(xl[tmp, 1:n], z)	# вектор расстояний от точки z до каждой точки из выборки
   }
-  orderedxl <- xl[order(distances), ]	# orderedxl - это массив xl, отсортированный по возрастанию расстояний от точки z до каждой точки из выборки
+  orderedxl <- xl[order(distances), ]		# orderedxl - это массив xl, отсортированный по возрастанию расстояний от точки z до каждой точки из выборки
   distances_s <- sort(distances)		# distances_s - отсортированный вектор расстояний 
-  weights <- c()			# weights - вектор весов для k ближайших соседей.
+  weights <- c()				# weights - вектор весов для k ближайших соседей.
   for(tmp in 1:k){
-    weights[tmp] <- CoreRect(distances_s[tmp]/distances_s[k+1])	# аргумент ядра - расстояние от z до i-го соседа точки z, деленое на расстояние от z до k+1-го соседа.
+  if(distances_s[k+1] != 0)
+      weights[tmp] <- K(distances_s[tmp]/distances_s[k+1])	# аргумент ядра - расстояние от z до i-го соседа точки z, деленое на расстояние от z до k+1-го соседа.
+      else weights[tmp] <- K(0)	
   }
   classes <- cbind(orderedxl[1:k, ], weights)[ , (n + 1):(n + 2)]		# dозьмем из orderedxl первые k строк, допишем к ним соответствующие веса и оставим только столбцы названий классов и весов
   sumSetosa <- sum(classes[classes$Species == "setosa", 2])
@@ -285,6 +290,15 @@ pf <- function(X, z, g, K, h){	# X - обучающая выборка, z - классифицируемая точ
 
 Оптимальное байесовкское решающее правило:
 
+<a href="https://www.codecogs.com/eqnedit.php?latex=a(x)&space;=&space;arg&space;\max_{y&space;\in&space;Y}&space;\lambda_y&space;P_y&space;p_y(x)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?a(x)&space;=&space;arg&space;\max_{y&space;\in&space;Y}&space;\lambda_y&space;P_y&space;p_y(x)" title="a(x) = arg \max_{y \in Y} \lambda_y P_y p_y(x)" /></a>
+где: 
+<a href="https://www.codecogs.com/eqnedit.php?latex=\lambda_{yy}&space;=&space;0,&space;\lambda_{ys}&space;=&space;\lambda_{y},&space;\forall&space;{y,&space;s}&space;\in&space;Y" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\lambda_{yy}&space;=&space;0,&space;\lambda_{ys}&space;=&space;\lambda_{y},&space;\forall&space;{y,&space;s}&space;\in&space;Y" title="\lambda_{yy} = 0, \lambda_{ys} = \lambda_{y}, \forall {y, s} \in Y" /></a>
+ - величина потери при отнесении объекта класса *y* к классу *s*,
+<a href="https://www.codecogs.com/eqnedit.php?latex=P_y" target="_blank"><img src="https://latex.codecogs.com/gif.latex?P_y" title="P_y" /></a>
+- априорная вероятность класса,
+<a href="https://www.codecogs.com/eqnedit.php?latex=p_y(x)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?p_y(x)" title="p_y(x)" /></a>
+- функция правдоподобия класса.
+
 ## Наивный байесовский классификатор
 
 Оптимален, когда все признаки независимы.
@@ -318,14 +332,8 @@ naiveBayes <- function(z, X, lambda, Ker){ 	# z - классифицируемая точка, X - об
     if(p[i] != 0) {
       p[i] <- p[i] - logb(nrow(subclass))
       ans[i, 1] <- (logb(lambda[i]*P_apr[i]) + p[i])  # подставили всё необходимое в оптимальное байесовкское решающее правило
-    } else ans[i, 1] <- 0
+    } else ans[i, 1] <- logb(lambda[i]*P_apr[i])
   }
-  print(z)
-  print(P_apr)
-  print(p)
-  print(ans)
-  print(max(ans[ , 1]))
-  print(ans[which.max(ans[ , 1]), 2])
   return(ans[which.max(ans[ , 1]), 2])
 }
 ```

@@ -47,7 +47,7 @@ naiveBayes <- function(z, X, lambda, Ker){
     if(p[i] != 0) {
       p[i] <- p[i] - logb(nrow(subclass))
       ans[i, 1] <- (logb(lambda[i]*P_apr[i]) + p[i])
-    } else ans[i, 1] <- 0
+    } else ans[i, 1] <- logb(lambda[i]*P_apr[i])
   }
   print(z)
   print(P_apr)
