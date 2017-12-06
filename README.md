@@ -306,6 +306,11 @@ pf <- function(X, z, g, K, h){	# X - обучающа€ выборка, z - классифицируема€ точ
 
 ќптимален, когда все признаки независимы.
 »спользует то, что оценивать несколько одномерных плотностей проще, чем одну многомерную плотность.
+Ёмпирическую оценкук плотности будем находить так:\
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\hat{p}_h(x)&space;=&space;\frac{1}{m}&space;\sum_{i&space;=&space;1}^{m}&space;\prod_{j&space;=&space;1}^{n}&space;\frac{1}{h_j}&space;K&space;\left(&space;\frac{f_j(x)&space;-&space;f_j(x_i)))}{h_j}&space;\right&space;)," target="_blank"><img src="https://latex.codecogs.com/gif.latex?\hat{p}_h(x)&space;=&space;\frac{1}{m}&space;\sum_{i&space;=&space;1}^{m}&space;\prod_{j&space;=&space;1}^{n}&space;\frac{1}{h_j}&space;K&space;\left(&space;\frac{f_j(x)&space;-&space;f_j(x_i)))}{h_j}&space;\right&space;)," title="\hat{p}_h(x) = \frac{1}{m} \sum_{i = 1}^{m} \prod_{j = 1}^{n} \frac{1}{h_j} K \left( \frac{f_j(x) - f_j(x_i)))}{h_j} \right )," /></a>
+
+где *x* - классифицируема€ точка, *x_i* - точка из выборки, *h* - ширина окна, *m* - количество точек, *n* - количество признаков, *K* - функци€ €дра, *f_j* - значение признака.
 
 –еализаци€:
 ```
