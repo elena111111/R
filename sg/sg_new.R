@@ -60,16 +60,16 @@ sg <- function(Xl, eta, lambda, classes, major){  #для двух классов c 2 признака
   rownames(Xl) <- 1:nrow(Xl)
   l <- nrow(Xl)
   n <- ncol(Xl) - 1
-  w <- runif(n, -1 / (2*n), 1 / (2*n))
-  print(w)
-  y <- c()
+  w <- runif(n, -1 / (2*n), 1 / (2*n))  # зададим начальные значения вектора весов из этого интервала
+  
+  y <- c()  # это будет вектор пометок классов со значениями -1, +1
   y[1:l] <- 1
   
   for(i in 1:l) {
     if(Xl$Species[i] == classes[1]) { y[i] <- -1 }
   }
   
-  Q <- 0
+  Q <- 0  # эмпирический риск, который мы будем минимизировать
   for(i in 1:l)
     Q <- Q + major(y[i]*ScalarProduct(w, Xl[i, 1:2]))
   print(Q)
@@ -77,12 +77,12 @@ sg <- function(Xl, eta, lambda, classes, major){  #для двух классов c 2 признака
   w_new <- c()
   w_new[1:l] <- 0
   
-  while(abs(Q) >= 0.01 && !eq(w, w_new)){
+  while(abs(Q) >= 0.01 && !eq(w, w_new)){ # пока эмпирический риск не станет достаточно мал, или вектор весов не перестанет изменяться
     w_new <- w
-    rand <- sample(1:l, 1, replace = T)
-    m <- y[rand]*ScalarProduct(w, Xl[rand, 1:2])
+    rand <- sample(1:l, 1, replace = T)           # выберем случайно номер объекта 
+    m <- y[rand]*ScalarProduct(w, Xl[rand, 1:2])  # найдем отступ для точки Xl[rand, 1:2]
     e <- major(m)
-    w <- w - eta * dQ(m) * Xl[rand, 1:2] * y[rand]
+    w <- w - eta * dQ(m) * Xl[rand, 1:2] * y[rand] # изменим вектор w в направлении антиградиента (наиболее быстрого убывания функционала Q)
     print("w:")
     print(w)
     Q <- (1 - lambda)*Q + lambda*e
@@ -145,5 +145,5 @@ for(i in st3){
 points(X[, 3:4], pch = 21, bg = colors[X$Species], col = colors[X$Species])
 legend("bottomright", c("virginica", "versicolor", "setosa"), pch = c(15,15,15), 
        col = c("blue", "green3", "red"))
-print(w[[1]]*x[1] + w[[2]]*y1[[1]])
-print(w[[1]]*y1[[2]] + w[[2]]*x[[2]])
+print(w[[1]]*x[1] + w[[2]]*y[[1]])
+print(w[[1]]*y[[2]] + w[[2]]*x[[2]])

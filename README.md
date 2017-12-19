@@ -374,7 +374,7 @@ stolp <- function(X, k, M, l0 = 50, delta = 2){  # X - обучающая выборка, k - ко
 
 ![alt text](https://github.com/elena111111/R/blob/master/stolp/stolp_delta2.png)     
 
-    Результат работы knn после stolp и новый подбор параметра k:
+Результат работы knn после stolp и новый подбор параметра k:
 
 ![alt text](https://github.com/elena111111/R/blob/master/stolp/stolp_knn_delta2_loo03933_and_loo.png)
 
@@ -382,7 +382,7 @@ stolp <- function(X, k, M, l0 = 50, delta = 2){  # X - обучающая выборка, k - ко
 
 ![alt text](https://github.com/elena111111/R/blob/master/stolp/stolp_delta3.png)     
 
-    Результат работы knn после stolp и новый подбор параметра k:
+Результат работы knn после stolp и новый подбор параметра k:
 
 ![alt text](https://github.com/elena111111/R/blob/master/stolp/stolp_knn_delta3_loo00933_and_loo.png)
 
@@ -459,5 +459,53 @@ naiveBayes <- function(z, X, lambda, Ker){ 	# z - классифицируемая точка, X - об
 
 ## Метод стохастического градиента
 
-Реализация:
+Метод строит разделяющую прямую для двух классов, настраивая параметры весов каждого признака.
 
+Реализация:
+```R
+sg <- function(Xl, eta, lambda, classes, major){  # Xl - обучающая выборка, eta - темп обучения, lambda - параметр сглаживания, classes - названия двух классов, major - мажоранта (функция)
+  rownames(Xl) <- 1:nrow(Xl)
+  l <- nrow(Xl)
+  n <- ncol(Xl) - 1
+  w <- runif(n, -1 / (2*n), 1 / (2*n))	# зададим начальные значения вектора весов из этого интервала
+  print(w)
+  y <- c()				# это будет вектор пометок классов со значениями -1, +1
+  y[1:l] <- 1
+  
+  for(i in 1:l) {
+    if(Xl$Species[i] == classes[1]) { y[i] <- -1 }
+  }
+  
+  Q <- 0				# эмпирический риск, который мы будем минимизировать
+  for(i in 1:l)
+    Q <- Q + major(y[i]*ScalarProduct(w, Xl[i, 1:2]))
+  print(Q)
+  
+  w_new <- c()
+  w_new[1:l] <- 0
+  
+  while(abs(Q) >= 0.01 && !eq(w, w_new)){	# пока эмпирический риск не станет достаточно мал, или вектор весов не перестанет изменяться
+    w_new <- w
+    rand <- sample(1:l, 1, replace = T)		# выберем случайно номер объекта 
+    m <- y[rand]*ScalarProduct(w, Xl[rand, 1:2])	# найдем отступ для точки Xl[rand, 1:2]
+    e <- major(m)				# вычислим ошибку алгоритма
+    w <- w - eta * dQ(m) * Xl[rand, 1:2] * y[rand]	# изменим вектор w в направлении антиградиента (наиболее быстрого убывания функционала Q)
+    Q <- (1 - lambda)*Q + lambda*e		# оценим новое значение Q
+  }
+  return(w)
+}
+```
+
+Пример работы программы (черные линии - попытки алгоритма построить разделяющую прямую, розовая - окончательный вариант):
+
+1) Для классов setosa и versicolor: 
+
+![alt text](https://github.com/elena111111/R/blob/master/sg/sg_set-vers.png)
+
+2) Для классов setosa и virginica: 
+
+![alt text](https://github.com/elena111111/R/blob/master/sg/sg_set-virg.png)
+
+3) Для классов versicolor и virginica: 
+
+![alt text](https://github.com/elena111111/R/blob/master/sg/sg_vers-virg.png)
