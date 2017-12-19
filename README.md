@@ -457,6 +457,32 @@ naiveBayes <- function(z, X, lambda, Ker){ 	# z - классифицируемая точка, X - об
 
 # Линейные алгоритмы классификации
 
+Рассматривается задача классификации с двумя классами *Y = {-1, +1}*.
+Модель алгоритмов:
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=a(x,&space;w)&space;=&space;sign&space;f(x,&space;w)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?a(x,&space;w)&space;=&space;sign&space;f(x,&space;w)" title="a(x, w) = sign f(x, w)" /></a>
+
+где *w* - вектор параметров, *f(x, w)* - дискриминантная функция.
+
+Если *f(x, w) > 0*, то алгоритм относит x к классу +1, если *f(x, w) < 0*, то к классу -1, а уравнение *f(x, w) = 0* задает разделяющую поверхность.
+
+Отступом ( *margin* ) объекта x_i относительно линейного алгоритма называется 
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=M_i(w)&space;=&space;y_i&space;f(x_i,&space;w)." target="_blank"><img src="https://latex.codecogs.com/gif.latex?M_i(w)&space;=&space;y_i&space;f(x_i,&space;w)." title="M_i(w) = y_i f(x_i, w)." /></a>
+
+Чем больше отступ, тем надежнее классифицируется x_i.
+
+Мы хотим минимизировать эмпирический риск: 
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=Q(w,&space;X^l)&space;\leqslant&space;\sum_{i&space;=&space;1}^{l}\pounds&space;(M_i(w)))&space;\rightarrow&space;\min_w" target="_blank"><img src="https://latex.codecogs.com/gif.latex?Q(w,&space;X^l)&space;\leqslant&space;\sum_{i&space;=&space;1}^{l}\pounds&space;(M_i(w)))&space;\rightarrow&space;\min_w" title="Q(w, X^l) \leqslant \sum_{i = 1}^{l}\pounds (M_i(w))) \rightarrow \min_w" /></a>
+
+где 
+<a href="https://www.codecogs.com/eqnedit.php?latex=\pounds&space;(M)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\pounds&space;(M)" title="\pounds (M)" /></a>  - монотонно невозрастающая функция отступа.
+
+Получим линейный классификатор, если: 
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=f(x,&space;w)&space;=&space;<&space;w,&space;x&space;>." target="_blank"><img src="https://latex.codecogs.com/gif.latex?f(x,&space;w)&space;=&space;<&space;w,&space;x&space;>." title="f(x, w) = < w, x >." /></a>
+
 ## Метод стохастического градиента
 
 Метод строит разделяющую прямую для двух классов, настраивая параметры весов каждого признака.
