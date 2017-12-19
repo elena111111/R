@@ -390,6 +390,13 @@ stolp <- function(X, k, M, l0 = 50, delta = 2){  # X - обучающая выборка, k - ко
 
 ![alt text](https://github.com/elena111111/R/blob/master/stolp/knn_and_loo.png)
 
+# Сравнение по LOO метрических алгоритмов
+
+<table><tr>
+<th>Алгоритм</th><th>LOO</th><th>Дополнительно</th>
+</tr><tr><td>knn</td><td>0.03333</td><td>k_opt = 6</td>
+</tr><tr><tr><td>wknn</td><td>0.04</td><td>q_opt = 0.95</td>
+</tr></table>
 
 # Байесовские методы классификации
 
