@@ -406,7 +406,14 @@ stolp <- function(X, k, M, l0 = 50, delta = 2){  # X - обучающая выборка, k - ко
 </tr><tr><tr><td>varpw(Quart)</td><td>0.04</td><td>k = 6</td>
 </tr><tr><tr><td>varpw(Triang)</td><td>0.04</td><td>k = 6</td>
 </tr><tr><tr><td>varpw(Rect)</td><td>0.03333</td><td>k = 6</td>
+</tr><tr><tr><td>pf(Gauss)</td><td>0.05333</td><td>Результат всегда разный, т.к. сильно зависит от рандома. 0.05333 - лучшее, что удалось получить.  При попытках ещё уменьшить значение LOO возникал эффект переобучения, LOO сначала уменьшалось, а потом возрастало, алгоритм зацикливался.</td>
 </tr></table>
+
+<table><tr>
+<th>Алгоритм</th><th>LOO на iris</th><th>delta</th><th>LOO на опорных объектах</th><th>Оптимальное k после LOO</th>
+</tr><tr><td>stolp(knn)</td><td>0.039333</td><td>2</td><td>0.090909</td><td>1</td>
+</tr><tr><tr><td>stolp(knn)</td><td>0.093333</td><td>3</td><td>0</td><td>1</td>
+</tr></table>
 
 # Байесовские методы классификации
 
