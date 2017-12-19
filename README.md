@@ -485,7 +485,20 @@ naiveBayes <- function(z, X, lambda, Ker){ 	# z - классифицируемая точка, X - об
 
 ## Метод стохастического градиента
 
+Будем искать вектор весов *w*, на каждом шаге изменяя его в сторону найскорейшего убывания Q (аппроксимированный эмпирический риск):
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=w&space;=&space;w&space;-&space;\eta&space;{Q}'(w)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?w&space;=&space;w&space;-&space;\eta&space;{Q}'(w)" title="w = w - \eta {Q}'(w)" /></a>
+
+или
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=w&space;=&space;w&space;-&space;\eta&space;\sum_{i&space;=&space;1}^{l}&space;{\pounds&space;}'(<&space;w,&space;x_i>&space;y_i)&space;x_i&space;y_i" target="_blank"><img src="https://latex.codecogs.com/gif.latex?w&space;=&space;w&space;-&space;\eta&space;\sum_{i&space;=&space;1}^{l}&space;{\pounds&space;}'(<&space;w,&space;x_i>&space;y_i)&space;x_i&space;y_i" title="w = w - \eta \sum_{i = 1}^{l} {\pounds }'(< w, x_i> y_i) x_i y_i" /></a>
+
+Каждый прецедент *(x_i, y_i)* вносит свой вклад в изменение вектора *w*. Ускорим процесс, если (вместо перебора всех *l* прецедентов и затем обновления) на каждом шаге будем выбирать случайный прецедент и сразу делать обновление:
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=w&space;=&space;w&space;-&space;\eta&space;{\pounds&space;}'_a(<&space;w,&space;x_i>&space;y_i)&space;x_i&space;y_i" target="_blank"><img src="https://latex.codecogs.com/gif.latex?w&space;=&space;w&space;-&space;\eta&space;{\pounds&space;}'_a(<&space;w,&space;x_i>&space;y_i)&space;x_i&space;y_i" title="w = w - \eta {\pounds }'_a(< w, x_i> y_i) x_i y_i" /></a>
+
 Метод строит разделяющую прямую для двух классов, настраивая параметры весов каждого признака.
+Метод остановится, когда значение *Q* будет достаточно мало, или когда *w* перестанет изменяться.
 
 Реализация:
 ```R
