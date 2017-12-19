@@ -2,27 +2,27 @@ eDist <- function(u, v) {
   sqrt(sum((u - v)^2))
 }
 
-CoreRect <- function(z){
+KerRect <- function(z){
   if(abs(z) <= 1) return(0.5)
   else return(0)
 }
 
-CoreTriang <- function(z){
+KerTriang <- function(z){
   if(abs(z) <= 1) return(1 - abs(z))
   else return(0)
 }
 
-CoreQuart <- function(z){
+KerQuart <- function(z){
   if(abs(z) <= 1) return((15/16)*(1 - z^2)^2)
   else return(0)
 }
 
-CoreEpan <- function(z){
+KerEpan <- function(z){
   if(abs(z) <= 1) return(0.75*(1 - z^2))
   else return(0)
 }
 
-CoreGauss <- function(z){
+KerGauss <- function(z){
   (2*pi)^(-0.5)*exp(-0.5*z^2)
 }
 
@@ -80,15 +80,15 @@ pf <- function(X, z, g, K, h){
 
 X <- iris
 h <- 0.8
-K <- CoreGauss
+K <- KerGauss
 g <- gamma(X, K, h, 0.15)
 print("gamma")
 print(g)
 print(length(g))
-step <- 0.2
+step <- 0.1
 
 colors <- c("setosa" = "red", "versicolor" = "green3", "virginica" = "blue")
-plot(iris[, 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species])
+plot(iris[, 3:4], pch = 21, main = "Метод потенциальных функций", bg = colors[iris$Species], col = colors[iris$Species])
 
 st3 <- seq(from <- min(iris[, 3]), to <- max(iris[, 3]), by <- step)
 st4 <- seq(from <- min(iris[, 4]), to <- max(iris[, 4]), by <-step)
@@ -100,6 +100,7 @@ for(i in st3){
   }
 }
 
+points(iris[, 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species])
 for(i in 1:dim(X)[1]){
   if(g[i] != 0) points(X[i, 3], X[i, 4], pch = 21, bg = "black", col = colors[pf(X, c(X[i, 3], X[i, 4]), g, K, h)])
 }
