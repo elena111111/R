@@ -34,8 +34,8 @@ loo <- function(X, alg, step, x_max){
     }
     Loo <- Q/l
     Oy <- c(Oy, Loo)
-    #print(k)
-    #print(Loo)
+    print(k)
+    print(Loo)
     if(Loo < LooOpt) {
       LooOpt <- Loo
       kOpt <- k

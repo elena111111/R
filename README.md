@@ -156,23 +156,23 @@ pw <- function(X, z, h, K){	# X - обучающая выборка, z - классифицируемая точка,
 
 1) Прямоугольное ядро:
 
-![alt text](https://github.com/elena111111/R/blob/master/pw/pw_core_rect_and_loo.png)
+![alt text](https://github.com/elena111111/R/blob/master/pw/pw_ker_rect_and_loo.png)
 
 2) Треугольное ядро:
 
-![alt text](https://github.com/elena111111/R/blob/master/pw/pw_core_triang_and_loo.png)
+![alt text](https://github.com/elena111111/R/blob/master/pw/pw_ker_triang_and_loo.png)
 
 3) Ядро Епанечникова:
 
-![alt text](https://github.com/elena111111/R/blob/master/pw/pw_core_epan_and_loo.png)
+![alt text](https://github.com/elena111111/R/blob/master/pw/pw_ker_epan_and_loo.png)
 
 4) Квартическое ядро:
 
-![alt text](https://github.com/elena111111/R/blob/master/pw/pw_core_quart_and_loo.png)
+![alt text](https://github.com/elena111111/R/blob/master/pw/pw_ker_quart_and_loo.png)
 
 5) Гауссовское ядро: 
 
-![alt text](https://github.com/elena111111/R/blob/master/pw/pw_core_gauss_and_loo.png)
+![alt text](https://github.com/elena111111/R/blob/master/pw/pw_ker_gauss_and_loo.png)
 
 ## Алгоритм парзеновского окна с переменной шириной окна (varpw).
 Имеется выборка *X* (ирисы Фишера), и 3 класса (*setosa*, *versicolor*, *virginica*). 
