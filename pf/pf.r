@@ -81,7 +81,7 @@ pf <- function(X, z, g, K, h){
 X <- iris
 h <- 0.8
 K <- KerGauss
-g <- gamma(X, K, h, 0.15)
+g <- gamma(X, K, h, 0.06)
 print("gamma")
 print(g)
 print(length(g))

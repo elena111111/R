@@ -275,7 +275,7 @@ pf <- function(X, z, g, K, h){	# X - обучающая выборка, z - классифицируемая точ
 
 Пример работы программы(для гауссовского ядра):
 
-![alt text](https://github.com/elena111111/R/blob/master/pf/pf_gauss_015_center.png)
+![alt text](https://github.com/elena111111/R/blob/master/pf/pf_05333)
 
 Черным показаны центры окон с ненулевым потенциалом (он получился в них равен 1).
 
@@ -284,7 +284,32 @@ pf <- function(X, z, g, K, h){	# X - обучающая выборка, z - классифицируемая точ
 Выполняет сжатие исходных данных.
 Позволяет отобрать из выборки множество опорных объектов, и обучаться на этом множестве.
 
+Покажем работу алгоритма на примере knn.
 
+Отступом ( *margin* ) объекта *x_i* относительно метрического алгоритма классификации называется: 
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=M(x_i)&space;=&space;W_y_i(x_i,&space;X^l)&space;-&space;\max_{y&space;\in&space;Y&space;\setminus&space;\{y_i\}&space;}&space;W_y(x_i,&space;X^l)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?M(x_i)&space;=&space;W_y_i(x_i,&space;X^l)&space;-&space;\max_{y&space;\in&space;Y&space;\setminus&space;\{y_i\}&space;}&space;W_y(x_i,&space;X^l)" title="M(x_i) = W_y_i(x_i, X^l) - \max_{y \in Y \setminus \{y_i\} } W_y(x_i, X^l)" /></a>
+
+В нашем случае это разность между количеством объектов(среди *k* соседей) своего класса для *x_i* и максимальным количеством объектов чужого класса.
+
+Реализация метода margin:
+```R
+margin <- function(z, class_z, X, k){  # z - точка, для которой считаем отступ, class_z - класс, которому принадлежит z, X - выборка (ирисы Фишера),  k - число соседей для knn
+  xl <- X[ , 3:5]
+  l <- nrow(xl) 
+  n <-  ncol(xl) - 1
+  
+  distances <- c()
+  for(tmp in 1:l){
+    distances[tmp] <- eDist(xl[tmp, 1:n], z)	# расстояния от *z*
+  }
+  orderedxl <- xl[order(distances), ]	# сортируем точки в порядке увеличения расстояния
+  classes <- orderedxl[1:k, n + 1]		# отбираем только первые k строк и столбец названий классов  
+  counts <- table(classes) 		# считаем, сколько раз встретился каждый класс
+  
+  return(counts[class_z] - max(counts[names(counts) != class_z]))	#разность между количеством точек класса class_z и максимальным количеством точек другого класса
+}
+```
 
 # Байесовские методы классификации
 

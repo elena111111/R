@@ -48,11 +48,10 @@ k_loo <- function(X, alg, step, x_max){
   return(kOpt)
 }
 
-margin <- function(z, class_z, X, k)
-  {  
+margin <- function(z, class_z, X, k){  
   xl <- X[ , 3:5]
-  l <- dim(xl)[1] 
-  n <- dim(xl)[2] - 1
+  l <- nrow(Xl) 
+  n <- ncol(Xl) - 1
   
   distances <- c()
   for(tmp in 1:l){

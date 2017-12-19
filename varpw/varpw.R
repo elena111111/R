@@ -26,6 +26,23 @@ KerGauss <- function(z){
   (2*pi)^(-0.5)*exp(-0.5*z^2)
 }
 
+
+loo <- function(X, K, k, alg){
+  LOO <- 0
+  l <- nrow(X)
+  for(i in 1:l){
+    X2 <- X[-i, ]
+    z <- X[i, 3:4]
+    rownames(X2) <- 1:(l-1)
+    if(alg(X2, z, K, k) != X[i, 5]) LOO <- LOO + 1
+  }
+  print(LOO)
+  LOO <- LOO / l
+  print("LOO:")
+  print(LOO)
+  return(LOO)
+}
+
 varpw <- function(X, z, K, k){
   xl <- X[, 3:5]
   l <- dim(xl)[1]
@@ -57,17 +74,20 @@ varpw <- function(X, z, K, k){
 colors <- c("setosa" = "red", "versicolor" = "green3", "virginica" = "blue")
 plot(iris[, 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species])
 
+
+X <- iris
 k <- 6
 K <- KerRect
 step <- 0.1
+loo(X, K, k, varpw)
 
-st3 <- seq(from = min(iris[, 3]), to = max(iris[, 3]), by = step)
-st4 <- seq(from = min(iris[, 4]), to = max(iris[, 4]), by = step)
+st3 <- seq(from = min(X[, 3]), to = max(X[, 3]), by = step)
+st4 <- seq(from = min(X[, 4]), to = max(X[, 4]), by = step)
 
 for(i in st3){
   for(j in st4){
     z <- c(i, j)
-    points(z[1], z[2],  pch = 21, bg = "lightgoldenrodyellow", col = colors[varpw(iris, z, K, k)])
+    points(z[1], z[2],  pch = 21, bg = "lightgoldenrodyellow", col = colors[varpw(X, z, K, k)])
   }
 }
 points(iris[, 3:4], pch = 21, bg = colors[iris$Species], col = colors[iris$Species])
