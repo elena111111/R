@@ -396,6 +396,16 @@ stolp <- function(X, k, M, l0 = 50, delta = 2){  # X - обучающая выборка, k - ко
 <th>Алгоритм</th><th>LOO</th><th>Дополнительно</th>
 </tr><tr><td>knn</td><td>0.03333</td><td>k_opt = 6</td>
 </tr><tr><tr><td>wknn</td><td>0.04</td><td>q_opt = 0.95</td>
+</tr><tr><tr><td>pw(Epan)</td><td>0.04</td><td>h_opt = 1.6</td>
+</tr><tr><tr><td>pw(Gauss)</td><td>0.04</td><td>h_opt = 0.9</td>
+</tr><tr><tr><td>pw(Quart)</td><td>0.04</td><td>h_opt = 2</td>
+</tr><tr><tr><td>pw(Triang)</td><td>0.04</td><td>h_opt = 2.7</td>
+</tr><tr><tr><td>pw(Rect)</td><td>0.04</td><td>h_opt = 1</td>
+</tr><tr><tr><td>varpw(Epan)</td><td>0.04</td><td>k = 6</td>
+</tr><tr><tr><td>varpw(Gauss)</td><td>0.04</td><td>k = 6</td>
+</tr><tr><tr><td>varpw(Quart)</td><td>0.04</td><td>k = 6</td>
+</tr><tr><tr><td>varpw(Triang)</td><td>0.04</td><td>k = 6</td>
+</tr><tr><tr><td>varpw(Rect)</td><td>0.03333</td><td>k = 6</td>
 </tr></table>
 
 # Байесовские методы классификации
